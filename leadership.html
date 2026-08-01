@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leadership &amp; Management — Sharath Kalakuntla</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C1119;
+  --panel:#131A28;
+  --panel-alt:#182036;
+  --rule:#293349;
+  --rule-soft:#1E2638;
+  --paper:#ECE7DA;
+  --paper-dim:#B9B4A4;
+  --paper-faint:#7C8598;
+  --gold:#C9974E;
+  --gold-dim:#8A6C3C;
+  --teal:#4FA398;
+  --teal-dim:#2F5F58;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'IBM Plex Sans', sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold); color:var(--ink);}
+
+h1,h2,h3{
+  font-family:'Source Serif 4', serif;
+  font-weight:600;
+  letter-spacing:-0.01em;
+}
+.mono{font-family:'IBM Plex Mono', monospace;}
+a{color:inherit;}
+
+.wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+
+/* ambient ledger-rule background */
+.ledger-bg{
+  position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:
+    repeating-linear-gradient(to bottom, transparent 0, transparent 37px, rgba(201,151,78,0.045) 38px);
+  opacity:0.6;
+}
+.ledger-bg::before{
+  content:"";
+  position:absolute; top:0; bottom:0; left:96px;
+  width:1px; background:rgba(79,163,152,0.08);
+}
+@media (max-width:720px){ .ledger-bg::before{ left:48px; } }
+
+/* ---------- header / nav ---------- */
+header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(12,17,25,0.88);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule-soft);
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 0;
+}
+.brand{
+  font-family:'IBM Plex Mono', monospace; font-size:13px; letter-spacing:0.08em;
+  color:var(--gold); text-transform:uppercase; text-decoration:none;
+}
+.brand strong{color:var(--paper); font-weight:600;}
+nav ul{list-style:none; display:flex; gap:26px;}
+nav a{
+  font-size:13px; letter-spacing:0.04em; text-transform:uppercase;
+  color:var(--paper-dim); text-decoration:none; transition:color .2s;
+  padding-bottom:3px; border-bottom:1px solid transparent;
+}
+nav a:hover, nav a:focus-visible{color:var(--gold);}
+nav a.active{color:var(--gold); border-color:var(--gold);}
+.nav-toggle{display:none;}
+@media (max-width:680px){
+  nav ul{gap:14px;}
+  nav a{font-size:10.5px;}
+}
+@media (max-width:560px){
+  .nav-inner{flex-wrap:wrap; gap:10px 0;}
+  nav ul{width:100%; justify-content:flex-start; flex-wrap:wrap; gap:14px 18px;}
+}
+
+/* ---------- page header (non-home pages) ---------- */
+.page-hero{padding:72px 0 56px; border-bottom:1px solid var(--rule-soft);}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--teal); margin-bottom:22px;
+  display:flex; align-items:center; gap:10px;
+}
+.eyebrow::before{content:""; width:22px; height:1px; background:var(--teal);}
+.page-hero h1{
+  font-size:clamp(2.1rem, 4.6vw, 3.2rem);
+  line-height:1.12;
+  color:var(--paper);
+  max-width:820px;
+}
+.page-hero h1 em{color:var(--gold); font-style:normal;}
+.page-hero .sub{max-width:640px; margin-top:22px; font-size:16px; color:var(--paper-dim);}
+
+/* ---------- hero (home only) ---------- */
+.hero{padding:96px 0 72px; position:relative;}
+.hero h1{
+  font-size:clamp(2.4rem, 5.4vw, 4.1rem);
+  line-height:1.08;
+  color:var(--paper);
+  max-width:920px;
+}
+.hero h1 em{color:var(--gold); font-style:normal;}
+.hero-sub{max-width:640px; margin-top:26px; font-size:17px; color:var(--paper-dim);}
+.hero-meta{
+  display:flex; flex-wrap:wrap; gap:10px 28px; margin-top:38px;
+  font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--paper-faint);
+}
+.hero-meta a{text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s, color .2s;}
+.hero-meta a:hover{color:var(--gold); border-color:var(--gold);}
+.hero-cta{display:flex; gap:16px; margin-top:40px; flex-wrap:wrap;}
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:13px 22px; font-size:13px; letter-spacing:0.04em; text-transform:uppercase;
+  text-decoration:none; border-radius:2px; font-family:'IBM Plex Mono', monospace;
+  transition:transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.btn-primary{background:var(--gold); color:var(--ink); font-weight:600;}
+.btn-primary:hover{transform:translateY(-1px); background:#DBA85F;}
+.btn-ghost{border:1px solid var(--rule); color:var(--paper);}
+.btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
+
+/* running-total statement strip */
+.statement{
+  margin-top:64px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  display:grid; grid-template-columns:repeat(4,1fr);
+}
+.statement div{padding:22px 24px; border-left:1px solid var(--rule-soft);}
+.statement div:first-child{border-left:none;}
+.statement .num{font-family:'Source Serif 4', serif; font-size:2rem; color:var(--gold); font-weight:600;}
+.statement .label{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--paper-faint); margin-top:6px;}
+@media (max-width:760px){ .statement{grid-template-columns:repeat(2,1fr);} .statement div:nth-child(3){border-left:none;} }
+
+/* ---------- section shell ---------- */
+section{padding:88px 0;}
+section.tight{padding:64px 0;}
+.section-head{margin-bottom:48px;}
+.section-head .tag{
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.14em;
+  color:var(--gold); text-transform:uppercase; margin-bottom:14px; display:block;
+}
+.section-head h2{font-size:clamp(1.6rem, 3vw, 2.2rem); color:var(--paper);}
+.section-head p{color:var(--paper-dim); max-width:620px; margin-top:14px; font-size:15px;}
+
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease;}
+.reveal.in{opacity:1; transform:none;}
+@media (prefers-reduced-motion: reduce){ .reveal{opacity:1; transform:none; transition:none;} }
+
+/* ---------- summary ---------- */
+.summary-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:start;}
+.summary-grid p{color:var(--paper-dim); font-size:15.5px; margin-bottom:16px;}
+.summary-grid p strong{color:var(--paper); font-weight:600;}
+.clients{border:1px solid var(--rule); padding:26px;}
+.clients .tag{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.1em; color:var(--teal); text-transform:uppercase; display:block; margin-bottom:16px;}
+.client-row{display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--rule-soft); font-size:14px;}
+.client-row:last-child{border-bottom:none;}
+.client-row span:first-child{color:var(--paper);}
+.client-row span:last-child{color:var(--paper-faint); font-family:'IBM Plex Mono', monospace; font-size:12px;}
+@media (max-width:820px){ .summary-grid{grid-template-columns:1fr;} }
+
+/* ---------- competencies as ledger line items ---------- */
+.ledger-list{border-top:1px solid var(--rule);}
+.ledger-item{
+  display:grid; grid-template-columns:100px 1fr; gap:24px;
+  padding:22px 0; border-bottom:1px solid var(--rule-soft);
+}
+.ledger-item .code{font-family:'IBM Plex Mono', monospace; color:var(--gold); font-size:13px; padding-top:2px;}
+.ledger-item h3{font-size:1.02rem; color:var(--paper); font-weight:600; font-family:'IBM Plex Sans', sans-serif; margin-bottom:6px;}
+.ledger-item p{font-size:14.5px; color:var(--paper-dim);}
+@media (max-width:600px){ .ledger-item{grid-template-columns:1fr;} .ledger-item .code{padding-top:0;} }
+
+/* ---------- career ledger timeline ---------- */
+.timeline{position:relative;}
+.tl-row{
+  display:grid; grid-template-columns:180px 1fr; gap:32px;
+  padding:36px 0; border-bottom:1px solid var(--rule-soft); position:relative;
+}
+.tl-row:first-child{padding-top:0;}
+.tl-date{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--paper-faint);}
+.tl-date .yrs{display:block; margin-top:10px; color:var(--gold); font-size:13px;}
+.tl-date .cum{display:block; margin-top:4px; color:var(--teal); font-size:11.5px; letter-spacing:0.03em;}
+.tl-card h3{font-size:1.2rem; color:var(--paper); font-weight:600;}
+.tl-card .role{font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--gold); text-transform:uppercase; letter-spacing:0.04em; display:block; margin-top:4px;}
+.tl-card .client{font-size:13px; color:var(--teal); margin-top:6px; font-style:italic;}
+.tl-card ul{margin-top:16px; padding-left:0; list-style:none;}
+.tl-card li{font-size:14.5px; color:var(--paper-dim); padding-left:18px; position:relative; margin-bottom:9px;}
+.tl-card li::before{content:"—"; position:absolute; left:0; color:var(--rule); font-family:'IBM Plex Mono', monospace;}
+.tl-note{
+  margin-top:16px; padding:12px 16px; background:var(--panel); border-left:2px solid var(--teal);
+  font-size:13.5px; color:var(--paper-faint); font-style:italic;
+}
+@media (max-width:700px){ .tl-row{grid-template-columns:1fr;} .tl-date{display:flex; align-items:center; gap:14px; flex-wrap:wrap;} .tl-date .yrs, .tl-date .cum{margin-top:0;} }
+
+/* ---------- leadership: promotion ladder ---------- */
+.ladder{border-top:1px solid var(--rule);}
+.rung{
+  display:grid; grid-template-columns:28px 1fr; gap:18px;
+  padding:20px 0; border-bottom:1px solid var(--rule-soft); position:relative;
+}
+.rung .dot{
+  width:10px; height:10px; border-radius:50%; background:var(--ink);
+  border:2px solid var(--gold); margin-top:6px;
+}
+.rung:last-child .dot{background:var(--gold);}
+.rung .rung-body{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:6px 18px;}
+.rung h3{font-size:1rem; color:var(--paper); font-weight:600; font-family:'IBM Plex Sans', sans-serif;}
+.rung .when{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--paper-faint);}
+.rung p{grid-column:2; font-size:14px; color:var(--paper-dim); margin-top:4px;}
+.rung{cursor:pointer;}
+.rung .toggle-icon{
+  position:absolute; top:18px; right:4px;
+  font-family:'IBM Plex Mono', monospace; font-size:20px; line-height:1;
+  color:var(--gold-dim); transition:transform .3s ease, color .3s ease; user-select:none;
+}
+.rung.open .toggle-icon{transform:rotate(45deg); color:var(--gold);}
+.rung-detail{
+  grid-column:2; max-height:0; overflow:hidden;
+  transition:max-height .4s ease, margin-top .4s ease;
+}
+.rung.open .rung-detail{margin-top:14px;}
+.rung-detail .detail-sub{
+  font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:0.06em; text-transform:uppercase;
+  color:var(--teal); margin:14px 0 8px;
+}
+.rung-detail .detail-sub:first-child{margin-top:0;}
+.rung-detail .detail-client{font-size:13px; color:var(--paper-faint); font-style:italic; margin-bottom:8px;}
+.rung-detail ul{list-style:none;}
+.rung-detail li{font-size:14px; color:var(--paper-dim); padding-left:18px; position:relative; margin-bottom:8px;}
+.rung-detail li::before{content:"—"; position:absolute; left:0; color:var(--rule); font-family:'IBM Plex Mono', monospace;}
+@media (max-width:700px){ .rung-detail{grid-column:1;} }
+
+/* ---------- leadership: team-size table ---------- */
+.team-table{width:100%; border-collapse:collapse; border-top:1px solid var(--rule);}
+.team-table th{
+  text-align:left; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.06em;
+  text-transform:uppercase; color:var(--teal); padding:14px 12px; border-bottom:1px solid var(--rule);
+}
+.team-table td{padding:16px 12px; border-bottom:1px solid var(--rule-soft); font-size:14px; color:var(--paper-dim); vertical-align:top;}
+.team-table td:first-child, .team-table th:first-child{padding-left:0;}
+.team-table .n{font-family:'Source Serif 4', serif; font-size:1.4rem; color:var(--gold); font-weight:600;}
+.team-table strong{color:var(--paper); font-weight:600;}
+@media (max-width:700px){
+  .team-table thead{display:none;}
+  .team-table, .team-table tbody, .team-table tr, .team-table td{display:block; width:100%;}
+  .team-table tr{border-bottom:1px solid var(--rule); padding:16px 0;}
+  .team-table td{border-bottom:none; padding:4px 0;}
+  .team-table td::before{content:attr(data-label); display:block; font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--paper-faint); text-transform:uppercase; margin-bottom:3px;}
+}
+
+/* callout / pull quote */
+.callout{
+  border:1px solid var(--rule); border-left:2px solid var(--gold);
+  padding:26px 28px; margin:8px 0 0;
+}
+.callout p{font-size:15.5px; color:var(--paper-dim); font-style:italic;}
+.callout p strong{color:var(--paper); font-style:normal;}
+
+/* ---------- education ---------- */
+.edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+.edu-card{border:1px solid var(--rule); padding:26px;}
+.edu-card .tag{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--teal); text-transform:uppercase; letter-spacing:0.08em;}
+.edu-card h3{margin-top:10px; font-size:1.1rem; color:var(--paper);}
+.edu-card p{margin-top:6px; color:var(--paper-dim); font-size:14px;}
+@media (max-width:640px){ .edu-grid{grid-template-columns:1fr;} }
+
+/* contact form-style block (mailto based, no backend) */
+.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start;}
+.contact-links{display:flex; flex-direction:column; gap:14px;}
+.contact-links a{
+  font-family:'IBM Plex Mono', monospace; font-size:14px; text-decoration:none; color:var(--paper-dim);
+  display:flex; align-items:center; gap:10px; transition:color .2s;
+}
+.contact-links a:hover{color:var(--gold);}
+.contact-links a::before{content:"→"; color:var(--gold);}
+@media (max-width:780px){ .contact-grid{grid-template-columns:1fr;} }
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--rule); padding:64px 0 40px; background:var(--panel);}
+.footer-inner{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; align-items:flex-start;}
+footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;}
+.fine-print{
+  margin-top:48px; padding-top:24px; border-top:1px solid var(--rule-soft);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  font-family:'IBM Plex Mono', monospace; font-size:11.5px; color:var(--paper-faint);
+}
+
+</style>
+</head>
+<body>
+
+<div class="ledger-bg" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html"><strong>Sharath Kalakuntla</strong> · Comp &amp; Delivery Leader</a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="experience.html">Experience</a></li>
+        <li><a href="leadership.html" class="active">Leadership</a></li>
+        <li><a href="competencies.html">Competencies</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Global COE &amp; Delivery Leadership</span>
+      <h1>People leadership, not just <em>platform</em> leadership.</h1>
+      <p class="sub">Titles are one way to read a career. Team size is another. Across seven roles, the
+        thread isn't just SAP Commissions expertise deepening — it's the scope of people and delivery I've
+        been trusted to run growing alongside it, from a two-person mentoring relationship to an
+        11-person cross-functional organization.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">01 — Promotion Path</span>
+        <h2>Six titles, one continuous track</h2>
+        <p>Every promotion below came from the same employer noticing the same pattern: technical ownership
+          that grew into ownership of people and delivery.</p>
+      </div>
+
+      <div class="ladder reveal">
+        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+          <div class="rung-body">
+            <h3>Systems Engineer</h3>
+            <span class="when mono">Polaris · 2005–2007</span>
+          </div>
+          <p>Individual contributor. Report development and SQL tuning for stock administration systems.</p>
+          <div class="rung-detail">
+            <ul>
+              <li>Trained on Actuate reporting as a fresher and grew into an independent developer, delivering data reporting solutions for stock administration systems (inquiry, execution, and transaction reporting).</li>
+              <li>Migrated ~30 reports from Actuate 7 to Actuate 8, ensuring data accuracy and continuity across the reporting pipeline during platform transition.</li>
+              <li>Analyzed and optimized SQL queries powering a nightly batch reporting process, reducing processing time by 20–30 minutes and improving data availability for downstream users.</li>
+              <li>Built and maintained multilingual reporting outputs (English, French, Chinese), enabling consistent data delivery and accessibility across global business units.</li>
+              <li>Worked extensively with relational data models and SQL to extract, validate, and present business-critical data for employees and business stakeholders.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+          <div class="rung-body">
+            <h3>Software Engineer</h3>
+            <span class="when mono">HSBC GLT · 2007–2008</span>
+          </div>
+          <p>Sole ownership of the two most business-critical compensation reports for a North American banking client.</p>
+          <div class="rung-detail">
+            <ul>
+              <li>Joined the SAP Commissions team as Actuate report developer, leveraging prior Actuate expertise to take ownership of critical compensation reporting.</li>
+              <li>Sole owner of the two most business-critical reports — Compensation Summary and Transaction Details — for the entire tenure, independently handling all issues and enhancements.</li>
+              <li>Delivered year-end reporting changes and resolved ~20 defects across releases, ensuring uninterrupted, accurate compensation reporting for the client.</li>
+              <li>Built new reports using Actuate ERD Pro with page-level security, ensuring role-based access control over sensitive financial and compensation data.</li>
+              <li>Enhanced and resolved defects in legacy Actuate reports from prior releases, improving reliability and strengthening user confidence in reporting accuracy.</li>
+              <li>Owned end-to-end report-level SQL development and tuning for compensation and transaction reporting, serving a North American banking client.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+          <div class="rung-body">
+            <h3>Senior Software Engineer</h3>
+            <span class="when mono">HSBC GLT · 2008–2010</span>
+          </div>
+          <p>First management scope: led a 7-member offshore reporting team, mentored 2 new joiners, and coordinated onsite in the US for 5 months.</p>
+          <div class="rung-detail">
+            <ul>
+              <li>Promoted to Senior Software Engineer in recognition of technical ownership and reliability on critical compensation reporting.</li>
+              <li>Expanded technical scope into Oracle stored procedures — diagnosing and resolving issues in reporting stored procedures, improving data stability and accuracy.</li>
+              <li>Designed and optimized Oracle PL/SQL stored procedures to populate reporting tables, improving data accuracy and processing performance.</li>
+              <li>Authored technical design documents for reporting changes, enhancements, and issue fixes — including retroactively documenting legacy reports to improve knowledge continuity.</li>
+              <li>Took ownership of reporting deliverables from offshore, accountable for timelines, quality, and stakeholder communication.</li>
+              <li>Developed working knowledge of SAP Commissions compensation elements (rules, fixed values, lookup tables, rate tables) and the SAP Commissions calculation engine/pipeline.</li>
+              <li>Investigated data mismatches between compensation/transaction reports and commission payouts, collaborating with the compensation team to identify and resolve root causes.</li>
+              <li>Mentored and trained 2 new joiners on Actuate and SAP Commissions reporting, enabling them to ramp up and contribute independently.</li>
+              <li>Traveled onsite to the US for 5 months as coordinator for the year-end compensation plan-change project, bridging business requirements with offshore delivery.</li>
+              <li>Led a 7-member offshore reporting team, combining hands-on PL/SQL development with issue resolution for SAP Commissions plans.</li>
+              <li>Managed the complete reporting project lifecycle: requirements gathering, design, build, unit testing, UAT support, production deployment, and post-production support.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+          <div class="rung-body">
+            <h3>Consultant Specialist</h3>
+            <span class="when mono">HSBC GLT · 2010–2014</span>
+          </div>
+          <p>Single point of contact for business stakeholders; directed cross-training initiatives across modules; mentored junior team members into well-rounded professionals.</p>
+          <div class="rung-detail">
+            <ul>
+              <li>Developed deep expertise in SAP Commissions plan components — Credit Rules, Primary/Secondary Measurement Rules, Incentive Rules, and Deposit Rules — designing and troubleshooting issues across payment calculations in both SAP Commissions and downstream reports.</li>
+              <li>Developed and modified compensation rules and Actuate reports to support evolving incentive strategies, ensuring alignment between plan design and reporting output.</li>
+              <li>Built compensation plans, rules, and SAP Commissions objects from scratch, supporting new and evolving incentive strategies for the business.</li>
+              <li>Led requirements gathering and end-to-end implementation for annual incentive plan changes (2012 &amp; 2013), delivering projects on time, within budget, and with no major defects.</li>
+              <li>Acted as functional expert for incentive plans, translating business requirements into technical solutions spanning reporting, compensation, and ETL modules.</li>
+              <li>Performed data modeling for reporting tables, ensuring accurate and scalable data structures to support compensation reporting.</li>
+              <li>Designed and documented functional and technical architecture — including reporting frameworks, compensation flow diagrams (Visio), and data integration requirements.</li>
+              <li>Proposed and implemented production automation improvements, streamlining recurring processes and reducing cycle time.</li>
+              <li>Directed cross-training initiatives across modules, improving team flexibility, delivery speed, and overall performance.</li>
+              <li>Mentored junior team members into well-rounded professionals, strengthening long-term team capability.</li>
+              <li>Served as single point of contact for business stakeholders, streamlining communication across onsite, offshore, business, and technical teams.</li>
+              <li>Acted as onsite coordinator for the major yearly plan-change project in the reporting module, bridging business requirements with offshore delivery.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+          <div class="rung-body">
+            <h3>Senior &amp; Principal Technology Consultant</h3>
+            <span class="when mono">SAP India · 2014–2023</span>
+          </div>
+          <p>Built and led a 7-member expert consulting team advising multiple global clients; supported 14 pre-sales engagements as the technical and functional authority in the room.</p>
+          <div class="rung-detail">
+            <div class="detail-sub">Senior Technology Consultant · Nov 2014 – Oct 2018</div>
+            <ul>
+              <li>Joined SAP's Compensation and Reporting practice, delivering SAP Commissions solutions across multiple industries and global clients.</li>
+            </ul>
+            <div class="detail-client">Client: Mobinil (Egypt)</div>
+            <ul>
+              <li>Rescued a stalled SAP Commissions implementation that had never reached production; traveled onsite to Egypt to lead a 4-month recovery effort.</li>
+              <li>Collaborated directly with the Sales Ops Director, HR, and Finance leadership to diagnose implementation gaps and business requirement mismatches.</li>
+              <li>Identified and corrected flaws in the existing plan implementation, redesigning rules to align with actual business requirements.</li>
+              <li>Developed reporting suite for Sales Reps, Finance, and HR teams to ensure payment accuracy and transparency.</li>
+              <li>Led UAT support and successfully moved the long-stalled project into production within the 4-month window.</li>
+              <li>Trained the business team on SAP Commissions, enabling them to independently and accurately manage sales rep payments, and handed over the solution to Mobinil IT.</li>
+            </ul>
+            <div class="detail-client">Client: Telefónica (Germany)</div>
+            <ul>
+              <li>Selected for this engagement based on strong delivery track record on the Mobinil project.</li>
+              <li>Led requirements-gathering workshops to define compensation plan design and reporting/dashboard requirements for a program spanning 99,000+ agencies across Germany.</li>
+              <li>Owned the complete sales compensation program lifecycle — requirements analysis, design, build, unit testing, UAT, production deployment, and post-production support — spanning plan design, rule updates, participant data management, and incentive calculations.</li>
+              <li>Provided daily production support, monitoring and processing ~500K daily transactions, running compensation pipelines, and refreshing sales rep reports on a daily basis.</li>
+              <li>Delivered ongoing feature enhancements — plan modifications, rule updates, dashboards, plan communicators, and reports — incorporating customer feedback to improve user experience and satisfaction.</li>
+            </ul>
+            <div class="detail-sub">Principal Technology Consultant · Nov 2018 – Apr 2023</div>
+            <ul>
+              <li>Promoted to Principal Technology Consultant, expanding scope to end-to-end solution ownership, data integrations, and cross-functional stakeholder collaboration across global clients.</li>
+              <li>Designed and maintained data integrations within SAP Commissions using PL/SQL, CDL, and SAP CPI, optimizing data flow and system performance.</li>
+              <li>Built multiple inbound integrations from diverse transaction and organizational data sources, and outbound extracts feeding HR systems to ensure accurate sales rep payments.</li>
+              <li>Designed and built finance-facing reports to support data-driven decision-making on compensation plan performance and improvements.</li>
+              <li>Performed data modelling and restructuring for reporting and inbound data source tables, improving scalability and accuracy of the data architecture.</li>
+              <li>Established and led a 7-member expert consulting team providing advisory support to clients on complex, previously unresolved incentive plan issues.</li>
+              <li>Developed and implemented scalable sales compensation solutions using industry best practices, reducing maintenance overhead across client implementations.</li>
+              <li>Spearheaded automation initiatives for reporting, compliance audits, and bonus payment accuracy, reducing manual intervention and strengthening data integrity.</li>
+              <li>Supported 14 pre-sales engagements — including technical and functional discovery, solution architecture and blueprinting, custom proof-of-concept demos, and effort estimation — contributing to 2 successful deal closures.</li>
+              <li>Delivered solutions across Telecom, Manufacturing, Insurance, and Retail for major global clients including AT&amp;T, Telstra, BOSCH, ABB, Tryg Forsikring, Japan AIG, and Kawan Lama.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+          <div class="rung-body">
+            <h3>Consultant &amp; Senior Manager</h3>
+            <span class="when mono">TCS · 2023–Present</span>
+          </div>
+          <p>Leads an 11-member cross-functional delivery organization (Run + Build) for Stryker, plus a separate 6-person team and manager for the Varicent compensation tool.</p>
+          <div class="rung-detail">
+            <ul>
+              <li>Lead delivery for both Run (production support, 6-member team) and Build (5-member team) for the SAP Commissions incentive compensation platform, maintaining close collaboration with business users across functions.</li>
+              <li>Act as primary business-facing advisor for compensation matters, aligning Sales, Marketing, Product, and Technology stakeholders on incentive strategy and plan changes.</li>
+              <li>Partner with upstream and downstream data teams to maintain accuracy, timeliness, and integrity of compensation data feeding reporting and dashboards.</li>
+              <li>Own end-to-end operations of the SAP Commissions platform, supporting compensation analytics and payout processes across 2 global and 5 local business units.</li>
+              <li>Lead an 11-member cross-functional team spanning build, run, testing, UAT, and architecture, ensuring reliable delivery of compensation data pipelines, enhancements, and reporting.</li>
+              <li>Drive data-insight-led initiatives that improve payout accuracy, shorten processing timelines, and strengthen compensation governance and compliance.</li>
+              <li>Delivered 4 self-service reports to business users, eliminating recurring daily manual data extract requests and improving reporting turnaround and stakeholder autonomy.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">02 — Team Footprint</span>
+        <h2>Teams built and led, by role</h2>
+      </div>
+
+      <table class="team-table reveal">
+        <thead>
+          <tr><th>Role</th><th>Team</th><th>Size</th><th>What I owned</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Role"><strong>Consultant &amp; Senior Manager</strong>, TCS</td>
+            <td data-label="Team">Run + Build, Stryker SAP Commissions</td>
+            <td data-label="Size"><span class="n">11</span></td>
+            <td data-label="Owned">Cross-functional delivery spanning build, run, testing, UAT, and architecture; primary business-facing advisor to Sales, Marketing, Product, and Technology.</td>
+          </tr>
+          <tr>
+            <td data-label="Role"><strong>Consultant &amp; Senior Manager</strong>, TCS</td>
+            <td data-label="Team">Varicent compensation tool</td>
+            <td data-label="Size"><span class="n">6</span> + manager</td>
+            <td data-label="Owned">Stood up a second delivery team with its own manager, extending leadership beyond the core SAP Commissions platform.</td>
+          </tr>
+          <tr>
+            <td data-label="Role"><strong>Principal Technology Consultant</strong>, SAP India</td>
+            <td data-label="Team">Expert consulting practice</td>
+            <td data-label="Size"><span class="n">7</span></td>
+            <td data-label="Owned">Standing advisory team resolving complex, previously unsolved incentive plan issues across multiple global clients simultaneously.</td>
+          </tr>
+          <tr>
+            <td data-label="Role"><strong>Senior Software Engineer</strong>, HSBC GLT</td>
+            <td data-label="Team">Offshore reporting team</td>
+            <td data-label="Size"><span class="n">7</span></td>
+            <td data-label="Owned">Combined hands-on PL/SQL development with issue resolution; coordinated with onsite stakeholders during a 5-month US assignment.</td>
+          </tr>
+          <tr>
+            <td data-label="Role"><strong>Consultant Specialist</strong>, HSBC GLT</td>
+            <td data-label="Team">Reporting &amp; compensation modules</td>
+            <td data-label="Size">Cross-module</td>
+            <td data-label="Owned">Directed cross-training initiatives across modules and mentored junior team members; single point of contact between onsite, offshore, business, and technical teams.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">03 — Stakeholder &amp; Executive Leadership</span>
+        <h2>Working alongside directors, not just for them</h2>
+        <p>Compensation sits at the intersection of Sales, Finance, HR, and Product — which means the job
+          has always meant operating at director level, even when the title on my badge said something else.</p>
+      </div>
+      <div class="callout reveal">
+        <p>In Egypt, I collaborated directly with the client's <strong>Sales Ops Director</strong> alongside
+          HR and Finance leadership to diagnose why a SAP Commissions implementation had never reached
+          production — then owned the fix. The recovery led directly to the Telefónica engagement, brought
+          to me by SAP's own <strong>professional services director</strong> on the strength of that work.</p>
+      </div>
+      <div class="ledger-list reveal" style="margin-top:8px;">
+        <div class="ledger-item">
+          <span class="code">EXEC&nbsp;01</span>
+          <div><h3>Primary Business-Facing Advisor</h3><p>At TCS today, the first point of contact for Sales, Marketing, Product, and Technology stakeholders on incentive strategy and plan changes — not routed through a manager, direct.</p></div>
+        </div>
+        <div class="ledger-item">
+          <span class="code">EXEC&nbsp;02</span>
+          <div><h3>Governance &amp; Compliance</h3><p>Drives data-insight-led initiatives that strengthen compensation governance and compliance across 2 global and 5 local business units.</p></div>
+        </div>
+        <div class="ledger-item">
+          <span class="code">EXEC&nbsp;03</span>
+          <div><h3>Pre-Sales Leadership</h3><p>Led technical and functional discovery, solution blueprinting, and effort estimation across 14 engagements, presenting directly to client decision-makers.</p></div>
+        </div>
+        <div class="ledger-item">
+          <span class="code">EXEC&nbsp;04</span>
+          <div><h3>Onsite Coordination</h3><p>Twice sent onsite as the delivery bridge between business leadership and offshore teams — 5 months in the US, 4 months in Egypt — each time to unblock a stalled or high-visibility program.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tight">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="tag">04 — Awards &amp; Recognition</span>
+        <h2>Recognition along the way</h2>
+        <p>A few of the physical markers from the desk at HSBC GLT — dated evidence behind the
+          Senior Software Engineer and Consultant Specialist years.</p>
+      </div>
+      <div class="edu-grid reveal">
+        <div class="edu-card">
+          <span class="tag">HSBC GLT · March 2010</span>
+          <h3>SPOT Award — Certificate of Achievement</h3>
+          <p>Presented in honor of outstanding performance and dedication, signed by the Head of
+            Regional Engineering, Deployment &amp; Support Services, North America.</p>
+        </div>
+        <div class="edu-card">
+          <span class="tag">HSBC Technology &amp; Services · Global Technology</span>
+          <h3>All STARS Award</h3>
+          <p>"Strengthen Team And Reward Success" — awarded for outstanding teamwork through the
+            year, signed by the Global Head, GLT.</p>
+        </div>
+        <div class="edu-card">
+          <span class="tag">OH Account Opening Project · Feb 2011</span>
+          <h3>Thank You Recognition</h3>
+          <p>Recognized for outstanding participation and contribution to the success of the OH
+            Account Opening Project by the HTS Service Director, COE.</p>
+        </div>
+        <div class="edu-card">
+          <span class="tag">Community · Miles for Smiles, 2011</span>
+          <h3>Miles for Smiles</h3>
+          <p>Team recognition for supporting the Hyderabad Council for Human Welfare through an
+            HSBC Hyderabad CS team initiative.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <h2>Looking for someone who can lead the platform and the people on it?</h2>
+    <div class="contact-links">
+      <a href="mailto:sharath_1236@hotmail.com">sharath_1236@hotmail.com</a>
+      <a href="tel:+919885681903">+91 98856 81903</a>
+    </div>
+  </div>
+  <div class="wrap fine-print">
+    <span>Sharath Kalakuntla — Hyderabad, India</span>
+    <span>Last balanced: 2026</span>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+  } else { els.forEach(el => el.classList.add('in')); }
+
+  // Promotion-path rungs: click/tap or press Enter/Space to expand resume bullet points.
+  // Only one rung open at a time, and the open one is remembered across visits.
+  const STORAGE_KEY = 'sk-leadership-open-rung';
+  const rungs = Array.from(document.querySelectorAll('.ladder .rung'));
+
+  const openRung = (rung) => {
+    const detail = rung.querySelector('.rung-detail');
+    rung.classList.add('open');
+    rung.setAttribute('aria-expanded', 'true');
+    if (detail) detail.style.maxHeight = detail.scrollHeight + 'px';
+  };
+  const closeRung = (rung) => {
+    const detail = rung.querySelector('.rung-detail');
+    rung.classList.remove('open');
+    rung.setAttribute('aria-expanded', 'false');
+    if (detail) detail.style.maxHeight = '0px';
+  };
+
+  rungs.forEach((rung, index) => {
+    const detail = rung.querySelector('.rung-detail');
+    if (!detail) return;
+    const toggle = () => {
+      const isOpen = rung.classList.contains('open');
+      // Closing the one that's already open, or opening a new one (which closes the rest).
+      rungs.forEach(r => { if (r !== rung) closeRung(r); });
+      if (isOpen) {
+        closeRung(rung);
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      } else {
+        openRung(rung);
+        try { localStorage.setItem(STORAGE_KEY, String(index)); } catch (e) {}
+      }
+    };
+    rung.addEventListener('click', toggle);
+    rung.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
+
+  // Restore whichever rung was open last time.
+  try {
+    const savedIndex = localStorage.getItem(STORAGE_KEY);
+    if (savedIndex !== null && rungs[savedIndex]) {
+      openRung(rungs[savedIndex]);
+    }
+  } catch (e) {}
+</script>
+</body>
+</html>
