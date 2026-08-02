@@ -77,12 +77,18 @@ header{
 .brand strong{color:var(--paper); font-weight:600;}
 nav ul{list-style:none; display:flex; gap:26px;}
 nav a{
+  position:relative;
   font-size:13px; letter-spacing:0.04em; text-transform:uppercase;
-  color:var(--paper-dim); text-decoration:none; transition:color .2s;
+  color:var(--paper-dim); text-decoration:none; transition:color .25s ease;
   padding-bottom:3px; border-bottom:1px solid transparent;
 }
+nav a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:-1px; height:1px;
+  background:var(--gold); transition:right .28s cubic-bezier(.4,0,.2,1);
+}
+nav a:hover::after, nav a:focus-visible::after, nav a.active::after{right:0;}
 nav a:hover, nav a:focus-visible{color:var(--gold);}
-nav a.active{color:var(--gold); border-color:var(--gold);}
+nav a.active{color:var(--gold);}
 .nav-toggle{display:none;}
 @media (max-width:680px){
   nav ul{gap:14px;}
@@ -133,7 +139,13 @@ nav a.active{color:var(--gold); border-color:var(--gold);}
   text-decoration:none; border-radius:2px; font-family:'IBM Plex Mono', monospace;
   transition:transform .18s ease, background .18s ease, border-color .18s ease;
 }
-.btn-primary{background:var(--gold); color:var(--ink); font-weight:600;}
+.btn-primary{background:var(--gold); color:var(--ink); font-weight:600; position:relative; overflow:hidden;}
+.btn-primary::before{
+  content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform:skewX(-20deg); transition:left .55s ease;
+}
+.btn-primary:hover::before{left:120%;}
 .btn-primary:hover{transform:translateY(-1px); background:#DBA85F;}
 .btn-ghost{border:1px solid var(--rule); color:var(--paper);}
 .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
@@ -217,8 +229,9 @@ section.tight{padding:64px 0;}
 }
 .rung .dot{
   width:10px; height:10px; border-radius:50%; background:var(--ink);
-  border:2px solid var(--gold); margin-top:6px;
+  border:2px solid var(--gold); margin-top:6px; transition:transform .3s ease, box-shadow .3s ease;
 }
+.rung.open .dot{transform:scale(1.35); box-shadow:0 0 0 4px rgba(201,151,78,0.18);}
 .rung:last-child .dot{background:var(--gold);}
 .rung .rung-body{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:6px 18px;}
 .rung h3{font-size:1rem; color:var(--paper); font-weight:600; font-family:'IBM Plex Sans', sans-serif;}
@@ -325,13 +338,13 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
 
       <div class="reveal">
         <span class="tag mono" style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--teal); text-transform:uppercase; letter-spacing:0.1em; display:block; margin-bottom:16px;">Education</span>
-        <div class="edu-grid" style="grid-template-columns:1fr; gap:16px;">
-          <div class="edu-card">
+        <div class="edu-grid stagger-group" style="grid-template-columns:1fr; gap:16px;">
+          <div class="edu-card reveal">
             <span class="tag">B.Tech, Information Technology</span>
             <h3>Jyothismathi Institute of Technology and Science</h3>
             <p>Karimnagar, Telangana, India</p>
           </div>
-          <div class="edu-card">
+          <div class="edu-card reveal">
             <span class="tag">Advanced Diploma</span>
             <h3>CDAC</h3>
             <p>Pune, Maharashtra, India</p>
@@ -356,6 +369,13 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
 </footer>
 
 <script>
+  // Stagger fade-in timing for grouped items (ladder rungs, ledger lists, table rows, cards)
+  document.querySelectorAll('.stagger-group').forEach(group => {
+    Array.from(group.children)
+      .filter(el => el.classList.contains('reveal'))
+      .forEach((el, i) => { el.style.transitionDelay = (i * 70) + 'ms'; });
+  });
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {

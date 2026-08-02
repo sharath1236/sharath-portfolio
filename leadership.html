@@ -77,12 +77,18 @@ header{
 .brand strong{color:var(--paper); font-weight:600;}
 nav ul{list-style:none; display:flex; gap:26px;}
 nav a{
+  position:relative;
   font-size:13px; letter-spacing:0.04em; text-transform:uppercase;
-  color:var(--paper-dim); text-decoration:none; transition:color .2s;
+  color:var(--paper-dim); text-decoration:none; transition:color .25s ease;
   padding-bottom:3px; border-bottom:1px solid transparent;
 }
+nav a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:-1px; height:1px;
+  background:var(--gold); transition:right .28s cubic-bezier(.4,0,.2,1);
+}
+nav a:hover::after, nav a:focus-visible::after, nav a.active::after{right:0;}
 nav a:hover, nav a:focus-visible{color:var(--gold);}
-nav a.active{color:var(--gold); border-color:var(--gold);}
+nav a.active{color:var(--gold);}
 .nav-toggle{display:none;}
 @media (max-width:680px){
   nav ul{gap:14px;}
@@ -133,7 +139,13 @@ nav a.active{color:var(--gold); border-color:var(--gold);}
   text-decoration:none; border-radius:2px; font-family:'IBM Plex Mono', monospace;
   transition:transform .18s ease, background .18s ease, border-color .18s ease;
 }
-.btn-primary{background:var(--gold); color:var(--ink); font-weight:600;}
+.btn-primary{background:var(--gold); color:var(--ink); font-weight:600; position:relative; overflow:hidden;}
+.btn-primary::before{
+  content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform:skewX(-20deg); transition:left .55s ease;
+}
+.btn-primary:hover::before{left:120%;}
 .btn-primary:hover{transform:translateY(-1px); background:#DBA85F;}
 .btn-ghost{border:1px solid var(--rule); color:var(--paper);}
 .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
@@ -217,8 +229,9 @@ section.tight{padding:64px 0;}
 }
 .rung .dot{
   width:10px; height:10px; border-radius:50%; background:var(--ink);
-  border:2px solid var(--gold); margin-top:6px;
+  border:2px solid var(--gold); margin-top:6px; transition:transform .3s ease, box-shadow .3s ease;
 }
+.rung.open .dot{transform:scale(1.35); box-shadow:0 0 0 4px rgba(201,151,78,0.18);}
 .rung:last-child .dot{background:var(--gold);}
 .rung .rung-body{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:6px 18px;}
 .rung h3{font-size:1rem; color:var(--paper); font-weight:600; font-family:'IBM Plex Sans', sans-serif;}
@@ -344,8 +357,8 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
           that grew into ownership of people and delivery.</p>
       </div>
 
-      <div class="ladder reveal">
-        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+      <div class="ladder stagger-group">
+        <div class="rung reveal" tabindex="0" role="button" aria-expanded="false">
           <span class="dot" aria-hidden="true"></span>
           <span class="toggle-icon" aria-hidden="true">+</span>
           <div class="rung-body">
@@ -363,7 +376,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
             </ul>
           </div>
         </div>
-        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+        <div class="rung reveal" tabindex="0" role="button" aria-expanded="false">
           <span class="dot" aria-hidden="true"></span>
           <span class="toggle-icon" aria-hidden="true">+</span>
           <div class="rung-body">
@@ -382,7 +395,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
             </ul>
           </div>
         </div>
-        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+        <div class="rung reveal" tabindex="0" role="button" aria-expanded="false">
           <span class="dot" aria-hidden="true"></span>
           <span class="toggle-icon" aria-hidden="true">+</span>
           <div class="rung-body">
@@ -406,7 +419,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
             </ul>
           </div>
         </div>
-        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+        <div class="rung reveal" tabindex="0" role="button" aria-expanded="false">
           <span class="dot" aria-hidden="true"></span>
           <span class="toggle-icon" aria-hidden="true">+</span>
           <div class="rung-body">
@@ -431,7 +444,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
             </ul>
           </div>
         </div>
-        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+        <div class="rung reveal" tabindex="0" role="button" aria-expanded="false">
           <span class="dot" aria-hidden="true"></span>
           <span class="toggle-icon" aria-hidden="true">+</span>
           <div class="rung-body">
@@ -476,7 +489,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
             </ul>
           </div>
         </div>
-        <div class="rung" tabindex="0" role="button" aria-expanded="false">
+        <div class="rung reveal" tabindex="0" role="button" aria-expanded="false">
           <span class="dot" aria-hidden="true"></span>
           <span class="toggle-icon" aria-hidden="true">+</span>
           <div class="rung-body">
@@ -507,36 +520,36 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
         <h2>Teams built and led, by role</h2>
       </div>
 
-      <table class="team-table reveal">
+      <table class="team-table">
         <thead>
-          <tr><th>Role</th><th>Team</th><th>Size</th><th>What I owned</th></tr>
+          <tr class="reveal"><th>Role</th><th>Team</th><th>Size</th><th>What I owned</th></tr>
         </thead>
-        <tbody>
-          <tr>
+        <tbody class="stagger-group">
+          <tr class="reveal">
             <td data-label="Role"><strong>Consultant &amp; Senior Manager</strong>, TCS</td>
             <td data-label="Team">Run + Build, Stryker SAP Commissions</td>
             <td data-label="Size"><span class="n">11</span></td>
             <td data-label="Owned">Cross-functional delivery spanning build, run, testing, UAT, and architecture; primary business-facing advisor to Sales, Marketing, Product, and Technology.</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Role"><strong>Consultant &amp; Senior Manager</strong>, TCS</td>
             <td data-label="Team">Varicent compensation tool</td>
             <td data-label="Size"><span class="n">6</span> + manager</td>
             <td data-label="Owned">Stood up a second delivery team with its own manager, extending leadership beyond the core SAP Commissions platform.</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Role"><strong>Principal Technology Consultant</strong>, SAP India</td>
             <td data-label="Team">Expert consulting practice</td>
             <td data-label="Size"><span class="n">7</span></td>
             <td data-label="Owned">Standing advisory team resolving complex, previously unsolved incentive plan issues across multiple global clients simultaneously.</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Role"><strong>Senior Software Engineer</strong>, HSBC GLT</td>
             <td data-label="Team">Offshore reporting team</td>
             <td data-label="Size"><span class="n">7</span></td>
             <td data-label="Owned">Combined hands-on PL/SQL development with issue resolution; coordinated with onsite stakeholders during a 5-month US assignment.</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Role"><strong>Consultant Specialist</strong>, HSBC GLT</td>
             <td data-label="Team">Reporting &amp; compensation modules</td>
             <td data-label="Size">Cross-module</td>
@@ -561,20 +574,20 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
           production — then owned the fix. The recovery led directly to the Telefónica engagement, brought
           to me by SAP's own <strong>professional services director</strong> on the strength of that work.</p>
       </div>
-      <div class="ledger-list reveal" style="margin-top:8px;">
-        <div class="ledger-item">
+      <div class="ledger-list stagger-group" style="margin-top:8px;">
+        <div class="ledger-item reveal">
           <span class="code">EXEC&nbsp;01</span>
           <div><h3>Primary Business-Facing Advisor</h3><p>At TCS today, the first point of contact for Sales, Marketing, Product, and Technology stakeholders on incentive strategy and plan changes — not routed through a manager, direct.</p></div>
         </div>
-        <div class="ledger-item">
+        <div class="ledger-item reveal">
           <span class="code">EXEC&nbsp;02</span>
           <div><h3>Governance &amp; Compliance</h3><p>Drives data-insight-led initiatives that strengthen compensation governance and compliance across 2 global and 5 local business units.</p></div>
         </div>
-        <div class="ledger-item">
+        <div class="ledger-item reveal">
           <span class="code">EXEC&nbsp;03</span>
           <div><h3>Pre-Sales Leadership</h3><p>Led technical and functional discovery, solution blueprinting, and effort estimation across 14 engagements, presenting directly to client decision-makers.</p></div>
         </div>
-        <div class="ledger-item">
+        <div class="ledger-item reveal">
           <span class="code">EXEC&nbsp;04</span>
           <div><h3>Onsite Coordination</h3><p>Twice sent onsite as the delivery bridge between business leadership and offshore teams — 5 months in the US, 4 months in Egypt — each time to unblock a stalled or high-visibility program.</p></div>
         </div>
@@ -590,26 +603,26 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
         <p>A few of the physical markers from the desk at HSBC GLT — dated evidence behind the
           Senior Software Engineer and Consultant Specialist years.</p>
       </div>
-      <div class="edu-grid reveal">
-        <div class="edu-card">
+      <div class="edu-grid stagger-group">
+        <div class="edu-card reveal">
           <span class="tag">HSBC GLT · March 2010</span>
           <h3>SPOT Award — Certificate of Achievement</h3>
           <p>Presented in honor of outstanding performance and dedication, signed by the Head of
             Regional Engineering, Deployment &amp; Support Services, North America.</p>
         </div>
-        <div class="edu-card">
+        <div class="edu-card reveal">
           <span class="tag">HSBC Technology &amp; Services · Global Technology</span>
           <h3>All STARS Award</h3>
           <p>"Strengthen Team And Reward Success" — awarded for outstanding teamwork through the
             year, signed by the Global Head, GLT.</p>
         </div>
-        <div class="edu-card">
+        <div class="edu-card reveal">
           <span class="tag">OH Account Opening Project · Feb 2011</span>
           <h3>Thank You Recognition</h3>
           <p>Recognized for outstanding participation and contribution to the success of the OH
             Account Opening Project by the HTS Service Director, COE.</p>
         </div>
-        <div class="edu-card">
+        <div class="edu-card reveal">
           <span class="tag">Community · Miles for Smiles, 2011</span>
           <h3>Miles for Smiles</h3>
           <p>Team recognition for supporting the Hyderabad Council for Human Welfare through an
@@ -635,6 +648,13 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
 </footer>
 
 <script>
+  // Stagger fade-in timing for grouped items (ladder rungs, ledger lists, table rows, cards)
+  document.querySelectorAll('.stagger-group').forEach(group => {
+    Array.from(group.children)
+      .filter(el => el.classList.contains('reveal'))
+      .forEach((el, i) => { el.style.transitionDelay = (i * 70) + 'ms'; });
+  });
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {

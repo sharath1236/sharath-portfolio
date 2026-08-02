@@ -77,12 +77,18 @@ header{
 .brand strong{color:var(--paper); font-weight:600;}
 nav ul{list-style:none; display:flex; gap:26px;}
 nav a{
+  position:relative;
   font-size:13px; letter-spacing:0.04em; text-transform:uppercase;
-  color:var(--paper-dim); text-decoration:none; transition:color .2s;
+  color:var(--paper-dim); text-decoration:none; transition:color .25s ease;
   padding-bottom:3px; border-bottom:1px solid transparent;
 }
+nav a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:-1px; height:1px;
+  background:var(--gold); transition:right .28s cubic-bezier(.4,0,.2,1);
+}
+nav a:hover::after, nav a:focus-visible::after, nav a.active::after{right:0;}
 nav a:hover, nav a:focus-visible{color:var(--gold);}
-nav a.active{color:var(--gold); border-color:var(--gold);}
+nav a.active{color:var(--gold);}
 .nav-toggle{display:none;}
 @media (max-width:680px){
   nav ul{gap:14px;}
@@ -133,7 +139,13 @@ nav a.active{color:var(--gold); border-color:var(--gold);}
   text-decoration:none; border-radius:2px; font-family:'IBM Plex Mono', monospace;
   transition:transform .18s ease, background .18s ease, border-color .18s ease;
 }
-.btn-primary{background:var(--gold); color:var(--ink); font-weight:600;}
+.btn-primary{background:var(--gold); color:var(--ink); font-weight:600; position:relative; overflow:hidden;}
+.btn-primary::before{
+  content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform:skewX(-20deg); transition:left .55s ease;
+}
+.btn-primary:hover::before{left:120%;}
 .btn-primary:hover{transform:translateY(-1px); background:#DBA85F;}
 .btn-ghost{border:1px solid var(--rule); color:var(--paper);}
 .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
@@ -217,8 +229,9 @@ section.tight{padding:64px 0;}
 }
 .rung .dot{
   width:10px; height:10px; border-radius:50%; background:var(--ink);
-  border:2px solid var(--gold); margin-top:6px;
+  border:2px solid var(--gold); margin-top:6px; transition:transform .3s ease, box-shadow .3s ease;
 }
+.rung.open .dot{transform:scale(1.35); box-shadow:0 0 0 4px rgba(201,151,78,0.18);}
 .rung:last-child .dot{background:var(--gold);}
 .rung .rung-body{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:6px 18px;}
 .rung h3{font-size:1rem; color:var(--paper); font-weight:600; font-family:'IBM Plex Sans', sans-serif;}
@@ -323,10 +336,10 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
       </div>
 
       <div class="statement reveal">
-        <div><div class="num">21+</div><div class="label">Years in Compensation &amp; Data</div></div>
-        <div><div class="num">11</div><div class="label">Largest Team Led (TCS, Stryker)</div></div>
-        <div><div class="num">5</div><div class="label">Promotions Across 3 Employers</div></div>
-        <div><div class="num">14</div><div class="label">Pre-Sales Engagements Supported</div></div>
+        <div><div class="num" data-count-to="21" data-suffix="+">0</div><div class="label">Years in Compensation &amp; Data</div></div>
+        <div><div class="num" data-count-to="11" data-suffix="">0</div><div class="label">Largest Team Led (TCS, Stryker)</div></div>
+        <div><div class="num" data-count-to="5" data-suffix="">0</div><div class="label">Promotions Across 3 Employers</div></div>
+        <div><div class="num" data-count-to="14" data-suffix="">0</div><div class="label">Pre-Sales Engagements Supported</div></div>
       </div>
     </div>
   </section>
@@ -372,23 +385,23 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
         <span class="tag">02 — Explore</span>
         <h2>Where to look next</h2>
       </div>
-      <div class="edu-grid reveal">
-        <div class="edu-card">
+      <div class="edu-grid stagger-group">
+        <div class="edu-card reveal">
           <span class="tag">Career Ledger</span>
           <h3><a href="experience.html" style="text-decoration:none; color:inherit;">Experience →</a></h3>
           <p>The full seven-role timeline, Polaris to TCS, with a running total of years and the story behind each move.</p>
         </div>
-        <div class="edu-card">
+        <div class="edu-card reveal">
           <span class="tag">People &amp; Delivery</span>
           <h3><a href="leadership.html" style="text-decoration:none; color:inherit;">Leadership &amp; Management →</a></h3>
           <p>Team sizes led, the promotion ladder from Systems Engineer to Senior Manager, COE and pre-sales leadership.</p>
         </div>
-        <div class="edu-card">
+        <div class="edu-card reveal">
           <span class="tag">Working Disciplines</span>
           <h3><a href="competencies.html" style="text-decoration:none; color:inherit;">Competencies →</a></h3>
           <p>Eleven core competencies, indexed by ledger code, from plan design to data storytelling.</p>
         </div>
-        <div class="edu-card">
+        <div class="edu-card reveal">
           <span class="tag">Get in Touch</span>
           <h3><a href="contact.html" style="text-decoration:none; color:inherit;">Contact &amp; Education →</a></h3>
           <p>Email, phone, résumé download, and academic background.</p>
@@ -413,6 +426,13 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
 </footer>
 
 <script>
+  // Stagger fade-in timing for grouped items (ladder rungs, ledger lists, table rows, cards)
+  document.querySelectorAll('.stagger-group').forEach(group => {
+    Array.from(group.children)
+      .filter(el => el.classList.contains('reveal'))
+      .forEach((el, i) => { el.style.transitionDelay = (i * 70) + 'ms'; });
+  });
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
@@ -420,6 +440,32 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
     }, { threshold: 0.12 });
     els.forEach(el => io.observe(el));
   } else { els.forEach(el => el.classList.add('in')); }
+
+  // Count up the statement-strip numbers when they scroll into view
+  const countEls = document.querySelectorAll('.num[data-count-to]');
+  const animateCount = (el) => {
+    const target = parseInt(el.getAttribute('data-count-to'), 10) || 0;
+    const suffix = el.getAttribute('data-suffix') || '';
+    const duration = 1100;
+    const start = performance.now();
+    const step = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+      el.textContent = Math.round(eased * target) + (p >= 1 ? suffix : '');
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if (countEls.length) {
+    if ('IntersectionObserver' in window) {
+      const countIo = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { animateCount(e.target); countIo.unobserve(e.target); } });
+      }, { threshold: 0.4 });
+      countEls.forEach(el => countIo.observe(el));
+    } else {
+      countEls.forEach(el => { el.textContent = el.getAttribute('data-count-to') + (el.getAttribute('data-suffix') || ''); });
+    }
+  }
 </script>
 </body>
 </html>

@@ -77,12 +77,18 @@ header{
 .brand strong{color:var(--paper); font-weight:600;}
 nav ul{list-style:none; display:flex; gap:26px;}
 nav a{
+  position:relative;
   font-size:13px; letter-spacing:0.04em; text-transform:uppercase;
-  color:var(--paper-dim); text-decoration:none; transition:color .2s;
+  color:var(--paper-dim); text-decoration:none; transition:color .25s ease;
   padding-bottom:3px; border-bottom:1px solid transparent;
 }
+nav a::after{
+  content:""; position:absolute; left:0; right:100%; bottom:-1px; height:1px;
+  background:var(--gold); transition:right .28s cubic-bezier(.4,0,.2,1);
+}
+nav a:hover::after, nav a:focus-visible::after, nav a.active::after{right:0;}
 nav a:hover, nav a:focus-visible{color:var(--gold);}
-nav a.active{color:var(--gold); border-color:var(--gold);}
+nav a.active{color:var(--gold);}
 .nav-toggle{display:none;}
 @media (max-width:680px){
   nav ul{gap:14px;}
@@ -133,7 +139,13 @@ nav a.active{color:var(--gold); border-color:var(--gold);}
   text-decoration:none; border-radius:2px; font-family:'IBM Plex Mono', monospace;
   transition:transform .18s ease, background .18s ease, border-color .18s ease;
 }
-.btn-primary{background:var(--gold); color:var(--ink); font-weight:600;}
+.btn-primary{background:var(--gold); color:var(--ink); font-weight:600; position:relative; overflow:hidden;}
+.btn-primary::before{
+  content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform:skewX(-20deg); transition:left .55s ease;
+}
+.btn-primary:hover::before{left:120%;}
 .btn-primary:hover{transform:translateY(-1px); background:#DBA85F;}
 .btn-ghost{border:1px solid var(--rule); color:var(--paper);}
 .btn-ghost:hover{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
@@ -217,8 +229,9 @@ section.tight{padding:64px 0;}
 }
 .rung .dot{
   width:10px; height:10px; border-radius:50%; background:var(--ink);
-  border:2px solid var(--gold); margin-top:6px;
+  border:2px solid var(--gold); margin-top:6px; transition:transform .3s ease, box-shadow .3s ease;
 }
+.rung.open .dot{transform:scale(1.35); box-shadow:0 0 0 4px rgba(201,151,78,0.18);}
 .rung:last-child .dot{background:var(--gold);}
 .rung .rung-body{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:6px 18px;}
 .rung h3{font-size:1rem; color:var(--paper); font-weight:600; font-family:'IBM Plex Sans', sans-serif;}
@@ -322,8 +335,8 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
           for where each one was first applied.</p>
       </div>
 
-      <div class="ladder reveal">
-        <div class="rung">
+      <div class="ladder stagger-group">
+        <div class="rung reveal">
           <span class="dot" aria-hidden="true"></span>
           <div class="rung-body">
             <h3>Compensation &amp; Plan Craft</h3>
@@ -331,7 +344,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
           </div>
           <p>Plan design and scenario analysis, complex problem-solving on incentive calculations, and translating compensation data into insight business stakeholders can act on.</p>
         </div>
-        <div class="rung">
+        <div class="rung reveal">
           <span class="dot" aria-hidden="true"></span>
           <div class="rung-body">
             <h3>Data &amp; Integration</h3>
@@ -339,7 +352,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
           </div>
           <p>Compensation data pipelines and dashboards, integration and data quality across SAP CPI, CDL, and PL/SQL — now extending into Python and machine learning.</p>
         </div>
-        <div class="rung">
+        <div class="rung reveal">
           <span class="dot" aria-hidden="true"></span>
           <div class="rung-body">
             <h3>Delivery &amp; People Leadership</h3>
@@ -347,7 +360,7 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
           </div>
           <p>Technical leadership and mentoring, end-to-end program management across onsite/offshore teams, and training that builds client and internal self-sufficiency.</p>
         </div>
-        <div class="rung">
+        <div class="rung reveal">
           <span class="dot" aria-hidden="true"></span>
           <div class="rung-body">
             <h3>Client-Facing &amp; Growth</h3>
@@ -366,72 +379,72 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
         <h2>Where each competency was first applied</h2>
       </div>
 
-      <table class="team-table reveal">
+      <table class="team-table">
         <thead>
-          <tr><th>Code</th><th>Competency</th><th>First Applied</th><th>Depth Today</th></tr>
+          <tr class="reveal"><th>Code</th><th>Competency</th><th>First Applied</th><th>Depth Today</th></tr>
         </thead>
-        <tbody>
-          <tr>
+        <tbody class="stagger-group">
+          <tr class="reveal">
             <td data-label="Code"><strong>SLV 08</strong></td>
             <td data-label="Competency">Problem Solving</td>
             <td data-label="First Applied">Polaris, 2005</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>RPT 09</strong></td>
             <td data-label="Competency">Reporting &amp; Data Storytelling</td>
             <td data-label="First Applied">Polaris, 2005</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>LEAD 05</strong></td>
             <td data-label="Competency">Technical Leadership &amp; Mentoring</td>
             <td data-label="First Applied">HSBC, Senior SE 2008</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>COMP 01</strong></td>
             <td data-label="Competency">Plan Design &amp; Analysis</td>
             <td data-label="First Applied">HSBC, Consultant Specialist 2010</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>XFN 04</strong></td>
             <td data-label="Competency">Cross-Functional Collaboration</td>
             <td data-label="First Applied">HSBC, Consultant Specialist 2010</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>PROJ 06</strong></td>
             <td data-label="Competency">Project &amp; Program Management</td>
             <td data-label="First Applied">HSBC, Consultant Specialist 2010</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>INTG 03</strong></td>
             <td data-label="Competency">Data Integration &amp; Quality</td>
             <td data-label="First Applied">SAP India, 2014</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>TRN 10</strong></td>
             <td data-label="Competency">Training &amp; Enablement</td>
             <td data-label="First Applied">SAP India, 2014</td>
             <td data-label="Depth">Advanced</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>DATA 02</strong></td>
             <td data-label="Competency">Compensation Data Pipelines &amp; Dashboards</td>
             <td data-label="First Applied">SAP India, Principal Consultant 2018</td>
             <td data-label="Depth">Expert</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>PSA 07</strong></td>
             <td data-label="Competency">Pre-Sales &amp; Solution Architecture</td>
             <td data-label="First Applied">SAP India, Principal Consultant 2018</td>
             <td data-label="Depth">Advanced</td>
           </tr>
-          <tr>
+          <tr class="reveal">
             <td data-label="Code"><strong>NEXT 11</strong></td>
             <td data-label="Competency">Python &amp; Machine Learning</td>
             <td data-label="First Applied">TCS, 2024 (self-directed)</td>
@@ -456,16 +469,16 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
           every problem.</p>
       </div>
 
-      <div class="ledger-list reveal" style="margin-top:8px;">
-        <div class="ledger-item">
+      <div class="ledger-list stagger-group" style="margin-top:8px;">
+        <div class="ledger-item reveal">
           <span class="code">HAB&nbsp;01</span>
           <div><h3>Diagnose Before You Design</h3><p>Every rescue — Mobinil included — started with understanding why the current state broke, not jumping to the fix.</p></div>
         </div>
-        <div class="ledger-item">
+        <div class="ledger-item reveal">
           <span class="code">HAB&nbsp;02</span>
           <div><h3>One Point of Contact</h3><p>Compensation touches too many functions for ambiguity; I've held the single-point-of-contact role since 2010 for exactly that reason.</p></div>
         </div>
-        <div class="ledger-item">
+        <div class="ledger-item reveal">
           <span class="code">HAB&nbsp;03</span>
           <div><h3>Build the Team, Not Just the Solution</h3><p>Mentoring and cross-training show up at every career stage — see <a href="leadership.html" style="color:var(--gold); text-decoration:underline;">Leadership &amp; Management</a> for specifics.</p></div>
         </div>
@@ -489,6 +502,13 @@ footer h2{font-size:clamp(1.5rem,3vw,2rem); color:var(--paper); max-width:480px;
 </footer>
 
 <script>
+  // Stagger fade-in timing for grouped items (ladder rungs, ledger lists, table rows, cards)
+  document.querySelectorAll('.stagger-group').forEach(group => {
+    Array.from(group.children)
+      .filter(el => el.classList.contains('reveal'))
+      .forEach((el, i) => { el.style.transitionDelay = (i * 70) + 'ms'; });
+  });
+
   const els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
